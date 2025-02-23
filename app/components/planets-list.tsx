@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Planet } from '@/app/interfaces/planets';
 import { FilterType } from '@/app/interfaces/filters';
 import { PlanetsService } from '@/app/services/api/planets';
-import FilterNavigation from './filter_navigation';
+import FilterNavigation from './filter-navigation';
 
 const PlanetsList = () => {
   const [planets, setPlanets] = useState<Planet[]>([]);

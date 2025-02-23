@@ -1,4 +1,4 @@
-import FilterNavigation from "./components/filter_navigation";
+import FilterNavigation from "./components/filter-navigation";
 import PlanetsList from "./components/planets-list";
 
 export default function Home() {
