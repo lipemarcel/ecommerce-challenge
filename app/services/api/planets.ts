@@ -28,21 +28,18 @@ export class PlanetsService {
     }
   }
 
-  static async getById(id: string): Promise<PlanetsResponse> {
+  static async getById(url: string): Promise<{ name: string }> {
     try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.PLANETS}/${id}`);
+      const response = await fetch(url);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
-      const data: PlanetsResponse = await response.json();
-      return data;
+      const data = await response.json();
+      return { name: data.name };
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Failed to fetch planet ${id}: ${error.message}`);
-      }
-      throw new Error(`Failed to fetch planet ${id}`);
+      throw new Error(`Failed to fetch planet: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 } 
