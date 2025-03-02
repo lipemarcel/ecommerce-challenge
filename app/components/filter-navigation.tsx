@@ -4,7 +4,11 @@ import { useState, useEffect } from 'react';
 import { PlanetsService } from '@/app/services/api/planets';
 import { Planet } from '@/app/interfaces/planets';
 
-const FilterNavigation = () => {
+interface FilterNavigationProps {
+  onFilterChange: (planetName: string) => void;
+}
+
+const FilterNavigation = ({ onFilterChange }: FilterNavigationProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [planets, setPlanets] = useState<Planet[]>([]);
@@ -25,6 +29,7 @@ const FilterNavigation = () => {
   const handleFilterSelect = (planetName: string) => {
     setSelectedFilter(planetName);
     setIsOpen(false);
+    onFilterChange(planetName);
   };
 
   return (
@@ -56,7 +61,7 @@ const FilterNavigation = () => {
               </svg>
               
               {isOpen && (
-                <div className="absolute top-full left-0 mt-1 w-32 bg-white shadow-lg rounded-md overflow-hidden">
+                <div className="absolute top-full left-0 mt-1 w-48 bg-white shadow-lg rounded-md overflow-hidden z-10">
                   <div
                     className={`px-4 py-2 cursor-pointer hover:bg-gray-100 
                       ${selectedFilter === 'All' ? 'bg-gray-50' : ''}`}
