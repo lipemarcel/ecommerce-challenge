@@ -1,11 +1,11 @@
 import FilterNavigation from "./components/filter-navigation";
-import PlanetsList from "./components/planets-list";
+import CharactersList from "./components/characters-list";
 
 export default function Home() {
   return (
     <header>
       <h1>Star Wars Characters</h1>
-      <PlanetsList />
+      <CharactersList />
     </header>
   );
 }
