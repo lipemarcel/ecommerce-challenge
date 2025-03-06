@@ -22,11 +22,11 @@ const CharactersList = () => {
       const data = await CharactersService.getAll(url);
       
       if (url) {
-        // Append new characters to existing list
+        // Adiciona novos personagens à lista existente
         setCharacters(prev => [...prev, ...data.results]);
         setFilteredCharacters(prev => [...prev, ...data.results]);
       } else {
-        // Initial load
+        // Carregamento inicial
         setCharacters(data.results);
         setFilteredCharacters(data.results);
       }
