@@ -12,18 +12,24 @@ const FilterNavigation = ({ onFilterChange }: FilterNavigationProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [planets, setPlanets] = useState<Planet[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPlanets = async () => {
+    const fetchAllPlanets = async () => {
       try {
-        const data = await PlanetsService.getAll();
-        setPlanets(data.results);
+        setIsLoading(true);
+        const allPlanets = await PlanetsService.getAllPlanets();
+        // Ordenar planetas por nome
+        const sortedPlanets = allPlanets.sort((a, b) => a.name.localeCompare(b.name));
+        setPlanets(sortedPlanets);
       } catch (error) {
         console.error('Failed to fetch planets:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchPlanets();
+    fetchAllPlanets();
   }, []);
 
   const handleFilterSelect = (planetName: string) => {
@@ -43,7 +49,9 @@ const FilterNavigation = ({ onFilterChange }: FilterNavigationProps) => {
                 onClick={() => setIsOpen(!isOpen)} 
                 className="flex items-center gap-2 cursor-pointer"
               >
-                <p className="text-gray-900">{selectedFilter}</p>
+                <p className="text-gray-900">
+                  {isLoading ? 'Loading planets...' : selectedFilter}
+                </p>
                 <svg 
                   className={`arrow transition-transform ${isOpen ? 'rotate-180' : ''}`}
                   width="12" 
@@ -62,8 +70,8 @@ const FilterNavigation = ({ onFilterChange }: FilterNavigationProps) => {
                 </svg>
               </div>
               
-              {isOpen && (
-                <div className="absolute top-full left-0 mt-1 w-48 bg-white shadow-lg rounded-md overflow-hidden z-10">
+              {isOpen && !isLoading && (
+                <div className="absolute top-full left-0 mt-1 w-48 bg-white shadow-lg rounded-md overflow-hidden z-10 max-h-96 overflow-y-auto">
                   <div
                     className={`px-4 py-2 cursor-pointer hover:bg-gray-100 
                       ${selectedFilter === 'All' ? 'bg-gray-50' : ''}`}
