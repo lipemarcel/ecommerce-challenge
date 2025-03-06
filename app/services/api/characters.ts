@@ -2,9 +2,9 @@ import { CharactersResponse } from '@/app/interfaces/characters';
 import { API_CONFIG } from './config';
 
 export class CharactersService {
-  static async getAll(): Promise<CharactersResponse> {
+  static async getAll(url?: string): Promise<CharactersResponse> {
     try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.PEOPLE}`);
+      const response = await fetch(url || `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.PEOPLE}`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
