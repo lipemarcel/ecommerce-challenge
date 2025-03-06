@@ -50,8 +50,6 @@ const CharacterCard = ({ character }: CharacterCardProps) => {
             <p className="text-sm uppercase text-gray-600">
               Gender • {character.gender}
             </p>
-            <h5 className="text-gray-600">Additional Info</h5>
-            <h4 className="text-gray-600">More Details</h4>
           </div>
         </figure>
       </div>
