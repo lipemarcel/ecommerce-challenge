@@ -5,30 +5,50 @@ import { Character } from '@/app/interfaces/characters';
 import { CharactersService } from '@/app/services/api/characters';
 import FilterNavigation from './filter-navigation';
 import CharacterCard from './character-card';
+import Button from './ui/button';
 import { PlanetsService } from '@/app/services/api/planets';
 
 const CharactersList = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [filteredCharacters, setFilteredCharacters] = useState<Character[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [nextPage, setNextPage] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchCharacters = async () => {
-      try {
-        setIsLoading(true);
-        const data = await CharactersService.getAll();
+  const fetchCharacters = async (url?: string) => {
+    try {
+      setIsLoadingMore(!!url);
+      const data = await CharactersService.getAll(url);
+      
+      if (url) {
+        // Append new characters to existing list
+        setCharacters(prev => [...prev, ...data.results]);
+        setFilteredCharacters(prev => [...prev, ...data.results]);
+      } else {
+        // Initial load
         setCharacters(data.results);
         setFilteredCharacters(data.results);
-      } catch (error) {
-        setError(error instanceof Error ? error.message : 'An error occurred');
-      } finally {
-        setIsLoading(false);
       }
-    };
+      
+      setNextPage(data.next);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'An error occurred');
+    } finally {
+      setIsLoading(false);
+      setIsLoadingMore(false);
+    }
+  };
 
+  useEffect(() => {
     fetchCharacters();
   }, []);
+
+  const handleLoadMore = () => {
+    if (nextPage) {
+      fetchCharacters(nextPage);
+    }
+  };
 
   const handleFilterChange = async (planetName: string) => {
     if (planetName === 'All') {
@@ -54,13 +74,30 @@ const CharactersList = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
+    <div className="space-y-6">
       <FilterNavigation onFilterChange={handleFilterChange} />
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-        {filteredCharacters.map((character) => (
-          <CharacterCard key={character.url} character={character} />
+        {filteredCharacters.map((character, index) => (
+          <CharacterCard 
+            key={`${character.url}-${index}`} 
+            character={character} 
+          />
         ))}
       </div>
+
+      {nextPage && (
+        <div className="flex justify-center pb-8">
+          <Button
+            variant="outline"
+            size="lg"
+            isLoading={isLoadingMore}
+            onClick={handleLoadMore}
+          >
+            LOAD MORE
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
