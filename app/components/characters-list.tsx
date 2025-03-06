@@ -77,13 +77,16 @@ const CharactersList = () => {
     <div className="space-y-6">
       <FilterNavigation onFilterChange={handleFilterChange} />
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-        {filteredCharacters.map((character, index) => (
-          <CharacterCard 
-            key={`${character.url}-${index}`} 
-            character={character} 
-          />
-        ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
+        {filteredCharacters.map((character) => {
+          const characterId = character.url.split('/').filter(Boolean).pop();
+          return (
+            <CharacterCard 
+              key={characterId} 
+              character={character} 
+            />
+          );
+        })}
       </div>
 
       {nextPage && (
