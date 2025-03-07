@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Planet } from '@/app/interfaces/planets';
 import { FilterType } from '@/app/interfaces/filters';
 import { PlanetsService } from '@/app/services/api/planets';
@@ -28,26 +29,69 @@ const PlanetsList = () => {
     fetchPlanets(currentFilter);
   }, [currentFilter]);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong className="font-bold">Error: </strong>
+          <span className="block sm:inline">{error}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <FilterNavigation onFilterChange={(planetName) => {
-        setCurrentFilter(planetName === 'All' ? FilterType.ALL : planetName as FilterType)
-      }} />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-        {planets.map((planet) => (
-          <div 
+    <div className="container mx-auto px-4 py-8">
+      <FilterNavigation 
+        onFilterChange={(planetName) => {
+          setCurrentFilter(planetName === 'All' ? FilterType.ALL : planetName as FilterType)
+        }}
+        className="mb-8"
+      />
+      <motion.div 
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {planets.map((planet, index) => (
+          <motion.div
             key={planet.url}
-            className="border rounded-lg p-4 shadow-sm"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
+            className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
           >
-            <h2 className="text-xl font-bold">{planet.name}</h2>
-            <p>Climate: {planet.climate}</p>
-            <p>Terrain: {planet.terrain}</p>
-          </div>
+            <div className="p-6">
+              <h2 className="text-2xl font-bold mb-4 text-gray-800">{planet.name}</h2>
+              <div className="space-y-3">
+                <div className="flex items-center">
+                  <span className="text-gray-600 font-medium w-24">Climate:</span>
+                  <span className="text-gray-800">{planet.climate}</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="text-gray-600 font-medium w-24">Terrain:</span>
+                  <span className="text-gray-800">{planet.terrain}</span>
+                </div>
+                {planet.population && (
+                  <div className="flex items-center">
+                    <span className="text-gray-600 font-medium w-24">Population:</span>
+                    <span className="text-gray-800">{planet.population}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };

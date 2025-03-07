@@ -1,15 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { PlanetsService } from '@/app/services/api/planets';
 import { Planet } from '@/app/interfaces/planets';
-import { motion, AnimatePresence } from 'framer-motion';
 
 interface FilterNavigationProps {
   onFilterChange: (planetName: string) => void;
+  className?: string;
 }
 
-const FilterNavigation = ({ onFilterChange }: FilterNavigationProps) => {
+const FilterNavigation = ({ onFilterChange, className = '' }: FilterNavigationProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [planets, setPlanets] = useState<Planet[]>([]);
@@ -20,7 +21,6 @@ const FilterNavigation = ({ onFilterChange }: FilterNavigationProps) => {
       try {
         setIsLoading(true);
         const allPlanets = await PlanetsService.getAllPlanets();
-        // Ordenar planetas por nome
         const sortedPlanets = allPlanets.sort((a, b) => a.name.localeCompare(b.name));
         setPlanets(sortedPlanets);
       } catch (error) {
@@ -40,71 +40,69 @@ const FilterNavigation = ({ onFilterChange }: FilterNavigationProps) => {
   };
 
   return (
-    <nav className="py-4">
-      <div className="container">
-        <div className="filter">
-          <div className="label flex items-center gap-3">
-            <span className="text-gray-600">Filter By:</span>
-            <div className="relative">
-              <div 
-                onClick={() => setIsOpen(!isOpen)} 
-                className="flex items-center gap-2 cursor-pointer"
+    <div className={`${className}`}>
+      <div className="flex items-center gap-4">
+        <span className="text-gray-600 font-medium whitespace-nowrap">Filter By:</span>
+        <div className="relative flex-1 sm:flex-none">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="w-full sm:w-64 px-4 py-2 text-left bg-white border rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-gray-800 font-medium">
+                {isLoading ? 'Loading planets...' : selectedFilter}
+              </span>
+              <motion.svg
+                animate={{ rotate: isOpen ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
+                className="w-5 h-5 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <p className="text-gray-900">
-                  {isLoading ? 'Loading planets...' : selectedFilter}
-                </p>
-                <svg 
-                  className={`arrow transition-transform ${isOpen ? 'rotate-180' : ''}`}
-                  width="12" 
-                  height="12" 
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path 
-                    d="M2.5 4.5L6 8L9.5 4.5" 
-                    stroke="currentColor" 
-                    strokeWidth="1.5" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-              
-              <AnimatePresence>
-                {isOpen && !isLoading && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-full left-0 mt-1 w-48 bg-white shadow-lg rounded-md overflow-hidden z-10 max-h-[300px] overflow-y-auto"
-                  >
-                    <div
-                      className={`px-4 py-2 cursor-pointer hover:bg-gray-100 
-                        ${selectedFilter === 'All' ? 'bg-gray-50' : ''}`}
-                      onClick={() => handleFilterSelect('All')}
-                    >
-                      All
-                    </div>
-                    {planets.map((planet) => (
-                      <div
-                        key={planet.url}
-                        className={`px-4 py-2 cursor-pointer hover:bg-gray-100 
-                          ${selectedFilter === planet.name ? 'bg-gray-50' : ''}`}
-                        onClick={() => handleFilterSelect(planet.name)}
-                      >
-                        {planet.name}
-                      </div>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </motion.svg>
             </div>
-          </div>
+          </button>
+
+          <AnimatePresence>
+            {isOpen && !isLoading && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="absolute z-10 w-full sm:w-64 mt-2 bg-white border rounded-lg shadow-lg overflow-hidden"
+              >
+                <div className="max-h-60 overflow-y-auto">
+                  <motion.button
+                    whileHover={{ backgroundColor: '#F3F4F6' }}
+                    onClick={() => handleFilterSelect('All')}
+                    className={`w-full px-4 py-2 text-left hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition-colors duration-200 ${
+                      selectedFilter === 'All' ? 'bg-blue-50 text-blue-600' : 'text-gray-800'
+                    }`}
+                  >
+                    All
+                  </motion.button>
+                  {planets.map((planet) => (
+                    <motion.button
+                      key={planet.url}
+                      whileHover={{ backgroundColor: '#F3F4F6' }}
+                      onClick={() => handleFilterSelect(planet.name)}
+                      className={`w-full px-4 py-2 text-left hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition-colors duration-200 ${
+                        selectedFilter === planet.name ? 'bg-blue-50 text-blue-600' : 'text-gray-800'
+                      }`}
+                    >
+                      {planet.name}
+                    </motion.button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
-    </nav>
+    </div>
   );
 };
 
