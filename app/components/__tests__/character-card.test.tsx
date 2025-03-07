@@ -1,10 +1,13 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import CharacterCard from '../character-card'
 
+// Mock que atrasa a resposta para simular loading
 jest.mock('@/app/services/api/planets', () => ({
   PlanetsService: {
-    getById: jest.fn().mockResolvedValue({ name: 'Tatooine' }),
-  },
+    getById: jest.fn(() => new Promise(resolve => {
+      setTimeout(() => resolve({ name: 'Tatooine' }), 100)
+    }))
+  }
 }))
 
 const mockCharacter = {
@@ -23,10 +26,14 @@ const mockCharacter = {
   starships: [],
   created: '2014-12-09T13:50:51.644000Z',
   edited: '2014-12-20T21:17:56.891000Z',
-  url: 'https://swapi.dev/api/people/1/',
+  url: 'https://swapi.dev/api/people/1/'
 }
 
 describe('CharacterCard', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('renders character information correctly', async () => {
     render(<CharacterCard character={mockCharacter} />)
 
@@ -35,11 +42,21 @@ describe('CharacterCard', () => {
     expect(screen.getByText(/Mass • 77/)).toBeInTheDocument()
     expect(screen.getByText(/Gender • male/)).toBeInTheDocument()
 
-    expect(await screen.findByText('Tatooine')).toBeInTheDocument()
+    // Espera o planeta carregar
+    await waitFor(() => {
+      expect(screen.getByText('Tatooine')).toBeInTheDocument()
+    })
   })
 
-  it('handles planet loading state', () => {
+  it('handles planet loading state', async () => {
     render(<CharacterCard character={mockCharacter} />)
+    
+    // O texto "Loading..." deve aparecer antes do planeta carregar
     expect(screen.getByText('Loading...')).toBeInTheDocument()
+    
+    // Espera o planeta carregar para garantir que o teste não interfira com outros
+    await waitFor(() => {
+      expect(screen.getByText('Tatooine')).toBeInTheDocument()
+    })
   })
 }) 
