@@ -1,36 +1,143 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Star Wars Planet Explorer
 
-## Getting Started
+A modern web application built with Next.js that allows users to explore planets from the Star Wars universe. The application features a responsive design, smooth animations, and an intuitive filtering system.
 
-First, run the development server:
+## 🚀 Features
 
+- **Planet List**: Browse through all planets from the Star Wars universe
+- **Filtering System**: Filter planets by different categories
+- **Responsive Design**: Optimized for both desktop and mobile devices
+- **Smooth Animations**: Enhanced user experience with Framer Motion animations
+- **Error Handling**: Robust error handling for API requests
+- **Loading States**: Clear loading indicators for better UX
+
+## 🛠 Technology Stack
+
+- **Framework**: Next.js 14
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion
+- **Testing**: Jest & React Testing Library
+- **API**: SWAPI (Star Wars API)
+
+## 📋 Prerequisites
+
+Before running this project, make sure you have:
+
+- Node.js 20.x or later
+- npm (comes with Node.js)
+
+## 🚀 Getting Started
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/lipemarcel/ecommerce-challenge.git
+   cd ecommerce-challenge
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install --legacy-peer-deps
+   ```
+
+3. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open the application**
+   Navigate to [http://localhost:3000](http://localhost:3000) in your browser
+
+## 🧪 Running Tests
+
+To run the test suite:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To run tests in watch mode:
+```bash
+npm test -- --watch
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🏗 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+├── app/
+│   ├── components/         # React components
+│   ├── interfaces/        # TypeScript interfaces
+│   ├── services/         # API services
+│   └── page.tsx          # Main page component
+├── public/              # Static files
+└── tests/              # Test files
+```
 
-## Learn More
+## 🎯 Key Components
 
-To learn more about Next.js, take a look at the following resources:
+### PlanetsList
+- Main component that displays the list of planets
+- Handles data fetching and state management
+- Implements filtering functionality
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### FilterNavigation
+- Provides filtering options for planets
+- Features smooth dropdown animations
+- Responsive design for all screen sizes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### PlanetsService
+- Handles all API interactions
+- Implements error handling
+- Manages data pagination
 
-## Deploy on Vercel
+## 🔄 State Management
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The application uses React's built-in state management with:
+- `useState` for local component state
+- `useEffect` for side effects and data fetching
+- Custom hooks for reusable logic
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🎨 Styling
+
+- Utilizes Tailwind CSS for responsive design
+- Custom animations with Framer Motion
+- Consistent theme throughout the application
+
+## 🔧 Configuration
+
+The project includes several configuration files:
+- `next.config.js` - Next.js configuration
+- `tailwind.config.js` - Tailwind CSS configuration
+- `jest.config.js` - Testing configuration
+
+## 🚀 Deployment
+
+The application is configured for deployment on GitHub Pages:
+
+1. Push changes to the main branch
+2. GitHub Actions will automatically:
+   - Build the application
+   - Deploy to GitHub Pages
+
+The live version can be accessed at: https://lipemarcel.github.io/ecommerce-challenge/
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 👥 Authors
+
+- Felipe Marcel - Initial work and maintenance
+
+## 🙏 Acknowledgments
+
+- Star Wars API (SWAPI) for providing the data
+- Next.js team for the amazing framework
+- Framer Motion for the animation library
