@@ -7,6 +7,7 @@ import FilterNavigation from './filter-navigation';
 import CharacterCard from './character-card';
 import Button from './ui/button';
 import { PlanetsService } from '@/app/services/api/planets';
+import { motion } from 'framer-motion';
 
 const CharactersList = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -77,17 +78,26 @@ const CharactersList = () => {
     <div className="space-y-6">
       <FilterNavigation onFilterChange={handleFilterChange} />
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
-        {filteredCharacters.map((character) => {
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4"
+      >
+        {filteredCharacters.map((character, index) => {
           const characterId = character.url.split('/').filter(Boolean).pop();
           return (
-            <CharacterCard 
-              key={characterId} 
-              character={character} 
-            />
+            <motion.div
+              key={characterId}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
+            >
+              <CharacterCard character={character} />
+            </motion.div>
           );
         })}
-      </div>
+      </motion.div>
 
       {nextPage && (
         <div className="flex justify-center pb-8">

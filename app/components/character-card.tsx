@@ -3,6 +3,7 @@
 import { Character } from '@/app/interfaces/characters';
 import { PlanetsService } from '@/app/services/api/planets';
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 interface CharacterCardProps {
   character: Character;
@@ -11,7 +12,6 @@ interface CharacterCardProps {
 const CharacterCard = ({ character }: CharacterCardProps) => {
   const [homeworld, setHomeworld] = useState<string>('Loading...');
   
-  // Extrair o ID do personagem da URL para usar como seed da imagem
   const characterId = character.url.split('/').filter(Boolean).pop() || '1';
   const imageUrl = `https://picsum.photos/seed/${characterId}/400/300`;
 
@@ -29,7 +29,10 @@ const CharacterCard = ({ character }: CharacterCardProps) => {
   }, [character.homeworld]);
 
   return (
-    <article className="bg-white rounded-lg shadow-sm overflow-hidden">
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
+    >
       <div className="container-people">
         <figure>
           <img 
@@ -53,7 +56,7 @@ const CharacterCard = ({ character }: CharacterCardProps) => {
           </div>
         </figure>
       </div>
-    </article>
+    </motion.div>
   );
 };
 
