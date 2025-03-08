@@ -91,13 +91,24 @@ npm test -- --watch
 
 ```
 ├── app/
-│   ├── components/         # React components
-│   ├── interfaces/        # TypeScript interfaces
-│   ├── services/         # API services
-│   └── page.tsx          # Main page component
-├── public/              # Static files
-└── tests/              # Test files
+│   ├── components/
+│   │   ├── __tests__/        # Component tests
+│   │   └── ...              # React components
+│   ├── interfaces/          # TypeScript interfaces
+│   ├── services/
+│   │   ├── api/
+│   │   │   ├── __tests__/   # API service tests
+│   │   │   └── ...         # API services
+│   │   └── ...
+│   └── page.tsx            # Main page component
+└── public/                # Static files
 ```
+
+The project follows a modular structure where:
+- Tests are located alongside their respective components and services
+- Each major feature has its own directory
+- Components and services are organized by domain
+- Tests follow the `__tests__` naming convention
 
 ## 🎯 Key Components
 
