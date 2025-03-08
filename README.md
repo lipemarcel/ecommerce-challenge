@@ -1,11 +1,11 @@
-# Star Wars Planet Explorer
+# Star Wars Characters Explorer
 
-A modern web application built with Next.js that allows users to explore planets from the Star Wars universe. The application features a responsive design, smooth animations, and an intuitive filtering system.
+A modern web application built with Next.js that allows users to explore characters from the Star Wars universe. The application features a responsive design, smooth animations, and an intuitive filtering system.
 
 ## 🚀 Features
 
-- **Planet List**: Browse through all planets from the Star Wars universe
-- **Filtering System**: Filter planets by different categories
+- **Character List**: Browse through all characters from the Star Wars universe
+- **Filtering System**: Filter characters by planets
 - **Responsive Design**: Optimized for both desktop and mobile devices
 - **Smooth Animations**: Enhanced user experience with Framer Motion animations
 - **Error Handling**: Robust error handling for API requests
@@ -48,6 +48,33 @@ Before running this project, make sure you have:
 4. **Open the application**
    Navigate to [http://localhost:3000](http://localhost:3000) in your browser
 
+## ⚠️ Deployment Status
+
+The application is currently configured for GitHub Pages deployment, but the deployment is temporarily not working due to technical issues being addressed. Local development remains fully functional.
+
+## 🔮 Future Implementations
+
+1. **Advanced Filtering**
+   - Multiple filter selection
+   - Search by character name
+   - Filter by additional attributes (species, vehicles, etc.)
+
+2. **Enhanced User Experience**
+   - Detailed character profiles
+   - Interactive character relationships map
+   - Favorite characters functionality
+
+3. **Performance Optimizations**
+   - Implement data caching
+   - Add infinite scroll
+   - Optimize image loading and compression
+
+4. **Additional Features**
+   - User authentication
+   - Personal collections
+   - Character comparison tool
+   - Timeline view of character appearances
+
 ## 🧪 Running Tests
 
 To run the test suite:
@@ -74,20 +101,20 @@ npm test -- --watch
 
 ## 🎯 Key Components
 
-### PlanetsList
-- Main component that displays the list of planets
+### CharactersList
+- Main component that displays the list of characters
 - Handles data fetching and state management
 - Implements filtering functionality
 
 ### FilterNavigation
-- Provides filtering options for planets
+- Provides filtering options for characters by planets
 - Features smooth dropdown animations
 - Responsive design for all screen sizes
 
-### PlanetsService
-- Handles all API interactions
-- Implements error handling
-- Manages data pagination
+### CharacterCard
+- Displays individual character information
+- Responsive layout with hover animations
+- Optimized image loading
 
 ## 🔄 State Management
 
@@ -102,24 +129,6 @@ The application uses React's built-in state management with:
 - Custom animations with Framer Motion
 - Consistent theme throughout the application
 
-## 🔧 Configuration
-
-The project includes several configuration files:
-- `next.config.js` - Next.js configuration
-- `tailwind.config.js` - Tailwind CSS configuration
-- `jest.config.js` - Testing configuration
-
-## 🚀 Deployment
-
-The application is configured for deployment on GitHub Pages:
-
-1. Push changes to the main branch
-2. GitHub Actions will automatically:
-   - Build the application
-   - Deploy to GitHub Pages
-
-The live version can be accessed at: https://lipemarcel.github.io/ecommerce-challenge/
-
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -132,9 +141,9 @@ The live version can be accessed at: https://lipemarcel.github.io/ecommerce-chal
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 👥 Authors
+## 👥 Author
 
-- Felipe Marcel - Initial work and maintenance
+- Fellipe Marcel - Initial work and maintenance
 
 ## 🙏 Acknowledgments
 
