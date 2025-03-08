@@ -31,7 +31,7 @@ const CharacterCard = ({ character }: CharacterCardProps) => {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
-      className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
+      className="border rounded-lg shadow-sm hover:shadow-md transition-shadow dark:border-gray-700"
     >
       <div className="container-people">
         <figure>
@@ -41,16 +41,18 @@ const CharacterCard = ({ character }: CharacterCardProps) => {
             className="w-full h-64 object-cover"
             loading="lazy"
           />
-          <div className="content space-y-4 p-6">
-            <p className="text-xl font-bold text-gray-900">{character.name}</p>
-            <p className="text-gray-500">{homeworld}</p>
-            <p className="text-sm uppercase text-gray-600">
+          <div className="content space-y-4 p-6 dark:bg-gray-800">
+            <p className="text-xl font-bold text-gray-900 dark:text-white">
+              {character.name}
+            </p>
+            <p className="text-gray-500 dark:text-gray-400">{homeworld}</p>
+            <p className="text-sm uppercase text-gray-600 dark:text-gray-400">
               Height • {character.height}
             </p>
-            <p className="text-sm uppercase text-gray-600">
+            <p className="text-sm uppercase text-gray-600 dark:text-gray-400">
               Mass • {character.mass}
             </p>
-            <p className="text-sm uppercase text-gray-600">
+            <p className="text-sm uppercase text-gray-600 dark:text-gray-400">
               Gender • {character.gender}
             </p>
           </div>

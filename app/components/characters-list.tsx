@@ -105,9 +105,10 @@ const CharactersList = () => {
             variant="outline"
             size="lg"
             isLoading={isLoadingMore}
+            className="uppercase font-normal hover:border-gray-400 dark:hover:border-gray-500"
             onClick={handleLoadMore}
           >
-            LOAD MORE
+            Load More
           </Button>
         </div>
       )}

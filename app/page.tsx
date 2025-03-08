@@ -1,16 +1,18 @@
-import FilterNavigation from "./components/filter-navigation";
 import CharactersList from "./components/characters-list";
 
 export default function Home() {
   return (
-    <header className="flex flex-col gap-[25px] p-5">
-      <h1 className="font-light text-[54px] leading-[64px] tracking-[0%]">
-        Star Wars Characters
-      </h1>
-      <p className="font-light text-[22px] leading-[32px] tracking-[0.92px] text-[#666666]">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo reprehenderit numquam explicabo vel, non mollitia enim nulla, a, cum quam sit quisquam impedit temporibus expedita? Assumenda doloremque animi amet numquam.
-      </p>
-      <CharactersList />
-    </header>
+    <main className="min-h-screen bg-white dark:bg-gray-900">
+      <div className="container mx-auto px-8 py-12">
+        <h1 className="text-4xl font-normal text-gray-900 dark:text-white mb-4">
+          Star Wars Characters
+        </h1>
+        <p className="text-gray-500 dark:text-gray-400 mb-12">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+        <CharactersList />
+      </div>
+    </main>
   );
 }
