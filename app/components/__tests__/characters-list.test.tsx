@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import CharactersList from '../characters-list'
 import { CharactersService } from '@/app/services/api/characters'
 
@@ -32,15 +32,24 @@ jest.mock('@/app/services/api/characters', () => ({
   }
 }))
 
+// Mock do PlanetsService para evitar erros de fetch
+jest.mock('@/app/services/api/planets', () => ({
+  PlanetsService: {
+    getById: jest.fn(() => Promise.resolve({ name: 'Tatooine' })),
+    getAllPlanets: jest.fn(() => Promise.resolve([{ name: 'Tatooine', url: '1' }]))
+  }
+}))
+
 describe('CharactersList', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   it('renders characters correctly', async () => {
-    render(<CharactersList />)
+    await act(async () => {
+      render(<CharactersList />)
+    })
 
-    // Espera os personagens carregarem
     await waitFor(() => {
       expect(screen.getByText('Luke Skywalker')).toBeInTheDocument()
     })
@@ -52,15 +61,19 @@ describe('CharactersList', () => {
   })
 
   it('loads more characters when clicking load more button', async () => {
-    render(<CharactersList />)
+    await act(async () => {
+      render(<CharactersList />)
+    })
 
     // Espera o botão aparecer
     await waitFor(() => {
-      expect(screen.getByText('LOAD MORE')).toBeInTheDocument()
+      expect(screen.getByText('Load More')).toBeInTheDocument()
     })
 
     // Clica no botão
-    fireEvent.click(screen.getByText('LOAD MORE'))
+    await act(async () => {
+      fireEvent.click(screen.getByText('Load More'))
+    })
 
     // Espera a segunda chamada ser feita
     await waitFor(() => {
@@ -71,7 +84,9 @@ describe('CharactersList', () => {
   it('handles error state', async () => {
     (CharactersService.getAll as jest.Mock).mockRejectedValueOnce(new Error('Failed to fetch'))
 
-    render(<CharactersList />)
+    await act(async () => {
+      render(<CharactersList />)
+    })
 
     await waitFor(() => {
       expect(screen.getByText('Error: Failed to fetch')).toBeInTheDocument()
