@@ -116,10 +116,14 @@ const FilterNavigation = ({ onFilterChange, className = '' }: FilterNavigationPr
           <Button
             onClick={handleClearAll}
             disabled={isDisabled}
-            variant="secondary"
-            className="whitespace-nowrap"
+            variant="outline"
+            className={`whitespace-nowrap px-6 py-2 text-sm font-normal transition-colors duration-200 ${
+              isDisabled 
+                ? 'text-gray-300 border-gray-200' 
+                : 'text-gray-500 border-gray-300 hover:bg-gray-50'
+            }`}
           >
-            Clear All
+            CLEAR ALL
           </Button>
         </div>
       </div>
