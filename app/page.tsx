@@ -3,7 +3,7 @@ import CharactersList from "./components/characters-list";
 
 export default function Home() {
   return (
-    <header className="flex flex-col gap-[25px]">
+    <header className="flex flex-col gap-[25px] p-5">
       <h1 className="font-light text-[54px] leading-[64px] tracking-[0%]">
         Star Wars Characters
       </h1>
